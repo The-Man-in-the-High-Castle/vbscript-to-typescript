@@ -1,0 +1,14 @@
+{
+  "name": "vbscript-to-typescript",
+  "version": "0.0.1",
+  "description": "Covert legacy ASP application written in VBScript to TypeScript",
+  "bin": {
+    "convertvs": "./dist/source/cli.js"
+  },
+  "author": "Urs Wegmann",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^7.0.60",
+    "typescript": "^2.8.1"
+  }
+}
