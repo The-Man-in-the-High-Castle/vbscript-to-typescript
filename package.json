@@ -1,13 +1,13 @@
 {
   "name": "vbscript-to-typescript",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "description": "Covert legacy ASP application written in VBScript to TypeScript",
   "repository": {
     "type": "git",
     "url": "https://github.com/uweg/vbscript-to-typescript.git"
   },
   "bin": {
-    "convertvs": "./dist/source/cli.js"
+    "convertvbs": "./cli.js"
   },
   "author": "Urs Wegmann",
   "license": "MIT",

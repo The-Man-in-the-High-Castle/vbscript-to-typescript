@@ -6,7 +6,7 @@ However, it will make your life much easier if you want to convert a legacy ASP 
 
 ## Usage
 ```
-convertvb [filename]
+convertvbs [filename]
 ```
 
 ## Warning
