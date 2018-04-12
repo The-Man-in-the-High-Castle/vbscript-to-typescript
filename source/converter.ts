@@ -50,6 +50,7 @@ export function convertCode(input: string) {
         code = convertFunctions(code);
         code = convertForStatements(code);
         code = convertLoops(code);
+        code = convertSplit(code);
 
         return `<%${code}%>`;
     });
@@ -152,6 +153,12 @@ export function convertLoops(input: string) {
         return `\nwhile (!(${condition})) {\n`;
     });
     result = result.replace(/^ *loop *$/gm, "}\n");
+
+    return result;
+}
+
+export function convertSplit(input: string) {
+    const result = input.replace(/Split\((.+?),(".+?")\)\s/g, `$1.split($2);`);
 
     return result;
 }
