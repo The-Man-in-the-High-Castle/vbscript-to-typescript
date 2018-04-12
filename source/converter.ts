@@ -31,7 +31,6 @@ export function convertImports(input: string, name: string) {
     result = convertCode(result);
     result = convertExpressions(result);
     result = convertStrings(result);
-    result = cleanStartAndStop(result);
 
     result = `\nexport function ${name}() {\n${result}\n}`
 
@@ -43,7 +42,7 @@ export function convertImports(input: string, name: string) {
 }
 
 export function convertCode(input: string) {
-    const result = input.replace(/<%[^=]([\s\S]*?)%>/g, (input, group1) => {
+    const result = input.replace(/<%([^=][\s\S]*?)%>/g, (input, group1) => {
         let code = group1;
         code = convertComments(code);
         code = convertIfStatements(code);
@@ -65,19 +64,28 @@ export function convertExpressions(input: string) {
 }
 
 export function convertStrings(input: string) {
-    const result = input.replace(/%>([\s\S]+?)<%/g, "\nResponse.Write(`$1`);\n");
+    let result = input.replace(/%>([\s\S]+?)<%/g, "\nResponse.Write(`$1`);\n");
 
-    return result;
-}
+    // Entire document is a string
+    if (result.indexOf("<%") === -1) {
+        result = `Response.Write(\`${result}\`);`;
+    }
 
-export function cleanStartAndStop(input: string) {
-    // Start
-    let result = input.replace(/^([\s\S]+?)<%/, "Response.Write(`$1`);\n");
-    result = result.replace(/^<%/, "");
+    // Start of the document is a string
+    const firstIndex = result.indexOf("<%");
+    if (firstIndex > 0) {
+        result = `Response.Write(\`${result.substr(0, firstIndex)}\`);\n${result.substring(firstIndex + 2)}`;
+    }
 
-    // End
-    result = result.replace(/%>([\s\S]+?)$/, "\nResponse.Write(`$1`);");
     result = result.replace(/%>$/, "");
+
+    // End of the document is a string
+    const lastIndex = result.lastIndexOf("%>");
+    if (lastIndex > -1 && lastIndex < result.length - 2) {
+        result = `${result.substr(0, lastIndex)}\nResult.Write(\`${result.substr(lastIndex + 3)}\`);`;
+    }
+
+    result = result.replace(/^<%/, "");
 
     return result;
 }
@@ -116,7 +124,7 @@ export function convertSwitchStatements(input: string) {
 }
 
 export function convertFunctions(input: string) {
-    let result = input.replace(/function *(.*)\((.*)\)/g, "\nfunction $1($2) {\n");
+    let result = input.replace(/function *(.*)\((.*)\)/g, "\n$1 = ($2) => {\n");
     result = result.replace(/end function/g, "\n}\n");
 
     return result;
