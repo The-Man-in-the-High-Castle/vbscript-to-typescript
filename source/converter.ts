@@ -106,7 +106,7 @@ export function convertComments(input: string) {
 }
 
 export function convertIfStatements(input: string) {
-    let result = input.replace(/if *(.*?) *then/g, (input, group1) => {
+    let result = input.replace(/if +(.*?) +then/g, (input, group1) => {
         const condition = convertConditions(group1)
         return `\nif (${condition}) {\n`;
     });
@@ -117,37 +117,37 @@ export function convertIfStatements(input: string) {
 }
 
 export function convertSwitchStatements(input: string) {
-    let result = input.replace(/select case *(.*)/g, "\nswitch ($1) {\n");
+    let result = input.replace(/select case +(.*)/g, "\nswitch ($1) {\n");
     result = result.replace(/end select/g, "\n}\n");
 
     return result;
 }
 
 export function convertFunctions(input: string) {
-    let result = input.replace(/function *(.*)\((.*)\)/g, "\n$1 = ($2) => {\n");
+    let result = input.replace(/function +(.*)\((.*)\)/g, "\n$1 = ($2) => {\n");
     result = result.replace(/end function/g, "\n}\n");
 
     return result;
 }
 
 export function convertForStatements(input: string) {
-    let result = input.replace(/for *(.*to.*)/g, "\nfor ($1) {\n");
+    let result = input.replace(/for +(.*to.*)/g, "\nfor ($1) {\n");
     result = result.replace(/^ *next *$/gm, "}\n");
 
     return result;
 }
 
 export function convertConditions(input: string) {
-    let result = input.replace(/ *and */g, " && ");
-    result = result.replace(/ *or */g, " || ");
-    result = result.replace(/ *<> */g, " !== ");
-    result = result.replace(/ *= */g, " === ");
+    let result = input.replace(/ +and +/g, " && ");
+    result = result.replace(/ +or +/g, " || ");
+    result = result.replace(/ +<> +/g, " !== ");
+    result = result.replace(/ += +/g, " === ");
 
     return result;
 }
 
 export function convertLoops(input: string) {
-    let result = input.replace(/do until *(.*)/g, (input, group1) => {
+    let result = input.replace(/do until +(.*)/g, (input, group1) => {
         const condition = convertConditions(group1);
         return `\nwhile (!(${condition})) {\n`;
     });
