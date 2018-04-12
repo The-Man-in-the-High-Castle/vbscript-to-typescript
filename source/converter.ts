@@ -82,7 +82,7 @@ export function convertStrings(input: string) {
     // End of the document is a string
     const lastIndex = result.lastIndexOf("%>");
     if (lastIndex > -1 && lastIndex < result.length - 2) {
-        result = `${result.substr(0, lastIndex)}\nResult.Write(\`${result.substr(lastIndex + 3)}\`);`;
+        result = `${result.substr(0, lastIndex)}\nResponse.Write(\`${result.substr(lastIndex + 3)}\`);`;
     }
 
     result = result.replace(/^<%/, "");
