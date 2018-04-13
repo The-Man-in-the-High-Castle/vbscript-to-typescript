@@ -22,9 +22,10 @@ export function convert(input: string, name: string) {
 
 export function convertImports(input: string, name: string) {
     const items = [] as { name: string, path: string }[];
-    let result = input.replace(/<!-- #include file="(.*)\/(.*?).asp" -->/g, (input, group1, group2) => {
-        const path = `${group1}/${group2}`;
-        items.push({ name: group2, path: path });
+    let result = input.replace(/<!-- #include file="(.*?\/)?(.*?).asp" -->/g, (input, group1, group2) => {
+        const path = group1 || './';
+        const file = `${path}${group2}`;
+        items.push({ name: group2, path: file });
         return `<%\n${group2}();\n%>`;
     });
 
