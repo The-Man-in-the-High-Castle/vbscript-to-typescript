@@ -52,6 +52,8 @@ export function convertCode(input: string) {
         code = convertForStatements(code);
         code = convertLoops(code);
         code = convertSplit(code);
+        code = convertPRec(code);
+        code = convertPLan(code);
 
         return `<%${code}%>`;
     });
@@ -60,7 +62,12 @@ export function convertCode(input: string) {
 }
 
 export function convertExpressions(input: string) {
-    const result = input.replace(/<%=([\s\S]*?)%>/g, '${$1}');
+    const result = input.replace(/<%=([\s\S]*?)%>/g, (input, group1) => {
+        let content = convertPRec(group1);
+        content = convertPLan(content);
+
+        return "${" + content + "}";
+    });
 
     return result;
 }
@@ -160,6 +167,18 @@ export function convertLoops(input: string) {
 
 export function convertSplit(input: string) {
     const result = input.replace(/Split\((.+?),(".+?")\)\s/g, `$1.split($2);`);
+
+    return result;
+}
+
+export function convertPRec(input: string) {
+    const result = input.replace(/(p_rec\("\S+?"\))/g, "$1.Value");
+
+    return result;
+}
+
+export function convertPLan(input: string) {
+    const result = input.replace(/(l_\S+?)\(p_lan\)/g, "$1[p_lan]");
 
     return result;
 }

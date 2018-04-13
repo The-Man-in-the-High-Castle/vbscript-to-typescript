@@ -1,6 +1,6 @@
 {
   "name": "vbscript-to-typescript",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Covert legacy ASP application written in VBScript to TypeScript",
   "repository": {
     "type": "git",
