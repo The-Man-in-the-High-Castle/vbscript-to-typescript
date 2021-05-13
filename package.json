@@ -7,7 +7,7 @@
     "url": "https://github.com/uweg/vbscript-to-typescript.git"
   },
   "bin": {
-    "convertvbs2": "./cli.js"
+    "convertvbs": "./cli.js"
   },
   "scripts": {
     "build": "tsc"
