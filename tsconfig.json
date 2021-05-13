@@ -1,10 +1,9 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "outDir": "dist",
-        "strict": true
-    },
-    "files": [
-        "source/cli.ts"
-    ]
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "dist",
+    "strict": true
+  },
+  "files": ["source/cli.ts"],
+  "exclude": ["node_modules"]
 }
