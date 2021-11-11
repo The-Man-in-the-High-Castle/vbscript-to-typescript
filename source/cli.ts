@@ -7,5 +7,5 @@ if (existsSync(file)) {
   console.log(`Processing "${file}"...`);
   convertFile(file);
 } else {
-  console.error(`"${file}" not found! ${process.cwd()}`);
+  console.error(`File "${file}" not found!`);
 }
